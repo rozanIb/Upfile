@@ -1,5 +1,6 @@
 package com.example.addfiles
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -8,51 +9,72 @@ import android.provider.MediaStore
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import java.io.File
-import java.net.URI
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+
 
 class MainActivity : AppCompatActivity() {
+lateinit var uri : Uri
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    val pdfBtn = findViewById<Button>(R.id.pdfBtn)
+    val docxBtn = findViewById<Button>(R.id.docxBtn)
+    val audioBtn = findViewById<Button>(R.id.audioBtn)
+    val videoBtn = findViewById<Button>(R.id.videoBtn)
+    val imageBtn = findViewById<Button>(R.id.imageBtn)
 
-    val PDF : Int = 0
-    lateinit var uri : Uri
-    lateinit var mStorage : StorageReference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val chooseBtn = findViewById<Button>(R.id.pdfBtn)
-        val upBtn = findViewById<Button>(R.id.upBtn)
-        mStorage = FirebaseStorage.getInstance().getReference("Uploads")
-        chooseBtn.setOnClickListener {
-            val intent = Intent()
-            intent.setType("pdf/*")
-            Intent.ACTION_GET_CONTENT
-         MediaStore.Files.FileColumns.MEDIA_TYPE_DOCUMENT
-            startActivityForResult(Intent.createChooser(intent, "Select PDF"), PDF)
-        }
-        upBtn.setOnClickListener  {
-        val fileref = mStorage.child(uri.lastPathSegment.toString())
-        val uploadTask=fileref.putFile(uri)
-        uploadTask.addOnSuccessListener {taskSnanshot->
-            val dow = taskSnanshot.metadata?.reference?.downloadUrl
-            val doeTxt=findViewById<TextView>(R.id.dwnTxt)
-            doeTxt.text=dow.toString()
-            Toast.makeText(this, "Upload", Toast.LENGTH_LONG)
-        }.addOnFailureListener {
-            Toast.makeText(this,"Failed",Toast.LENGTH_LONG)
-        }
-    }}
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val uriTxt=findViewById<TextView>(R.id.uriTxt)
-        if(requestCode == PDF && resultCode == RESULT_OK){
-            uri = data!!.data!!
-            uriTxt.text=uri.toString()
-
-
-
-}}}
-
-
+    pdfBtn.setOnClickListener() {
+        val intent = Intent()
+        intent.setType("pdf/*")
+        Intent.ACTION_GET_CONTENT
+        MediaStore.Files.FileColumns.MEDIA_TYPE_DOCUMENT
+        startActivityForResult(Intent.createChooser(intent, "Select PDF"), 100)
+    }
+    docxBtn.setOnClickListener() {
+        val intent = Intent()
+        intent.setType("docx/*")
+        Intent.ACTION_GET_CONTENT
+        MediaStore.Files.FileColumns.MEDIA_TYPE_DOCUMENT
+        startActivityForResult(Intent.createChooser(intent, "Select PDF"), 100)
+    }
+    audioBtn.setOnClickListener() {
+        val intent = Intent()
+        intent.setType("audio/*")
+        Intent.ACTION_GET_CONTENT
+        MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO
+        startActivityForResult(Intent.createChooser(intent, "Select AUDIO"), 100)
+    }
+    videoBtn.setOnClickListener() {
+        val intent = Intent()
+        intent.setType("video/*")
+        Intent.ACTION_GET_CONTENT
+        MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
+        startActivityForResult(Intent.createChooser(intent, "Select VIDEO"), 100)
+    }
+    imageBtn.setOnClickListener() {
+        val intent = Intent()
+        intent.setType("image/*")
+        Intent.ACTION_PICK
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 100)
+    }
+}
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    val uriTxt = findViewById<TextView>(R.id.uriTxt)
+    if (requestCode == 100 && resultCode == RESULT_OK) {
+        uri = data!!.data!!
+        uriTxt.setText(uri.toString())
+        upload()
+    }
+}
+private fun upload() {
+   var mStorage = Firebase.storage.getReference("Uploads")
+    val pdfref = mStorage.child(uri.lastPathSegment.toString())
+    pdfref.putFile(uri).addOnSuccessListener {
+        Toast.makeText(this, "Upload", Toast.LENGTH_LONG)
+    }.addOnFailureListener {
+        Toast.makeText(this,"Failed",Toast.LENGTH_LONG)
+    }
+}}

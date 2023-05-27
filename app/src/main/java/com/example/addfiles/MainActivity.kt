@@ -34,35 +34,35 @@ val infoBtn=  findViewById<Button>(R.id.infoBtn)
         intent.setType("pdf/*")
         Intent.ACTION_GET_CONTENT
         MediaStore.Files.FileColumns.MEDIA_TYPE_DOCUMENT
-        startActivityForResult(Intent.createChooser(intent, "Select PDF"), 1)
+        startActivityForResult(Intent.createChooser(intent, "Select PDF"), 100)
     }
     docxBtn.setOnClickListener() {
         val intent = Intent()
         intent.setType("docx/*")
         Intent.ACTION_GET_CONTENT
         MediaStore.Files.FileColumns.MEDIA_TYPE_DOCUMENT
-        startActivityForResult(Intent.createChooser(intent, "Select Docx"), 2)
+        startActivityForResult(Intent.createChooser(intent, "Select Docx"), 100)
     }
     audioBtn.setOnClickListener() {
         val intent = Intent()
         intent.setType("audio/*")
         Intent.ACTION_GET_CONTENT
         MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO
-        startActivityForResult(Intent.createChooser(intent, "Select AUDIO"), 3)
+        startActivityForResult(Intent.createChooser(intent, "Select AUDIO"), 100)
     }
     videoBtn.setOnClickListener() {
         val intent = Intent()
         intent.setType("video/*")
         Intent.ACTION_GET_CONTENT
         MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
-        startActivityForResult(Intent.createChooser(intent, "Select VIDEO"), 4)
+        startActivityForResult(Intent.createChooser(intent, "Select VIDEO"), 100)
     }
     imageBtn.setOnClickListener() {
         val intent = Intent()
         intent.setType("image/*")
         Intent.ACTION_PICK
         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 5)
+        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 100)
     }
 }
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

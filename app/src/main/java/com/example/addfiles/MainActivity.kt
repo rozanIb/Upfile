@@ -45,30 +45,30 @@ val infoBtn=  findViewById<Button>(R.id.infoBtn)
     }
     audioBtn.setOnClickListener() {
         val intent = Intent()
+            Intent.ACTION_PICK
+            MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO
         intent.setType("audio/*")
-        Intent.ACTION_GET_CONTENT
-        MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO
         startActivityForResult(Intent.createChooser(intent, "Select AUDIO"), 100)
     }
     videoBtn.setOnClickListener() {
-        val intent = Intent()
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
         intent.setType("video/*")
-        Intent.ACTION_GET_CONTENT
-        MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
         startActivityForResult(Intent.createChooser(intent, "Select VIDEO"), 100)
     }
     imageBtn.setOnClickListener() {
-        val intent = Intent()
+        val intent = Intent(
+        Intent.ACTION_PICK,
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.setType("image/*")
-        Intent.ACTION_PICK
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 100)
+        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 10)
     }
 }
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     val uriTxt = findViewById<TextView>(R.id.uriTxt)
-    if (requestCode == 100 && resultCode == RESULT_OK) {
+    if (requestCode == 10 && resultCode == RESULT_OK) {
         uri = data!!.data!!
         uriTxt.setText(uri.toString())
         upload()

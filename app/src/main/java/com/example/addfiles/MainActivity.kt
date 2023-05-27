@@ -23,7 +23,12 @@ override fun onCreate(savedInstanceState: Bundle?) {
     val audioBtn = findViewById<Button>(R.id.audioBtn)
     val videoBtn = findViewById<Button>(R.id.videoBtn)
     val imageBtn = findViewById<Button>(R.id.imageBtn)
+val infoBtn=  findViewById<Button>(R.id.infoBtn)
 
+    infoBtn.setOnClickListener() {
+        val intent = Intent (this,Charts::class.java)
+        startActivity(intent)
+    }
     pdfBtn.setOnClickListener() {
         val intent = Intent()
         intent.setType("pdf/*")

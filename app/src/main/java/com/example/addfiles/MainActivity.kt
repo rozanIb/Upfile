@@ -45,9 +45,9 @@ val infoBtn=  findViewById<Button>(R.id.infoBtn)
     }
     audioBtn.setOnClickListener() {
         val intent = Intent()
-            Intent.ACTION_PICK
-            MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO
         intent.setType("audio/*")
+            Intent.ACTION_GET_CONTENT
+            MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO
         startActivityForResult(Intent.createChooser(intent, "Select AUDIO"), 100)
     }
     videoBtn.setOnClickListener() {

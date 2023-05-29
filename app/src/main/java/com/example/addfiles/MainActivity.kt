@@ -62,13 +62,13 @@ val infoBtn=  findViewById<Button>(R.id.infoBtn)
         Intent.ACTION_PICK,
         MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.setType("image/*")
-        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 10)
+        startActivityForResult(Intent.createChooser(intent, "Select IMAGE"), 100)
     }
 }
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     val uriTxt = findViewById<TextView>(R.id.uriTxt)
-    if (requestCode == 10 && resultCode == RESULT_OK) {
+    if (requestCode == 100 && resultCode == RESULT_OK) {
         uri = data!!.data!!
         uriTxt.setText(uri.toString())
         upload()
